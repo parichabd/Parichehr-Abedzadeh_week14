@@ -1,0 +1,30 @@
+.parentInforUser {
+  width: calc(100% - 6rem);
+  margin: 3rem auto;
+}
+
+.headeUserInfo {
+  color: #24a0ed;
+  font-weight: 300;
+  padding: 15px 0;
+}
+
+.paragUserInfo {
+  font-style: italic;
+  margin-bottom: 23px;
+  color: rgb(58, 58, 58);
+}
+
+.parentUserInfoPartTwo {
+  display: flex;
+  gap: 100px;
+}
+
+.inputInfo input {
+  display: grid;
+  grid-template-columns: 1, 1fr;
+  padding: 12px;
+  margin: 12px 0;
+  width: 400px;
+  border: 1px solid #fdda1d;
+}

@@ -1,0 +1,13 @@
+.navbar{
+    background-color: #000;
+    width: 100%;
+}
+.navbarHead{
+    color: #fff;
+    font-size: 18px;
+    padding: 25px;
+    font-style: italic;
+}
+.navbarHeadColor{
+    color: #FDDA1D;
+}
