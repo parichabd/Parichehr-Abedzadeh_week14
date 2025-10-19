@@ -1,20 +1,28 @@
+import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useNavigate,
 } from "react-router-dom";
-import { useState } from "react";
 import Nav from "./Components/Navbar/Nav";
 import AddContact from "./Components/AddContact/AddContact";
 import UserInfo from "./Components/UserInfo/UserInfo";
 import Search from "./Components/Search/Search";
 
 function App() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(() => {
+    const stored = localStorage.getItem("contacts");
+    return stored ? JSON.parse(stored) : [];
+  });
   const [editData, setEditData] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedContacts, setSelectedContacts] = useState([]);
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
 
   const addOrUpdateContact = (contact, navigate) => {
     if (editData !== null && editIndex !== null) {
@@ -33,6 +41,19 @@ function App() {
     setContacts((prev) => prev.filter((_, idx) => idx !== index));
   };
 
+  const deleteSelected = () => {
+    if (selectedContacts.length === 0) return;
+    setContacts((prev) =>
+      prev.filter((_, idx) => !selectedContacts.includes(idx))
+    );
+    setSelectedContacts([]);
+  };
+
+  const deleteAll = () => {
+    setContacts([]);
+    setSelectedContacts([]);
+  };
+
   const editContact = (index, navigate) => {
     setEditData(contacts[index]);
     setEditIndex(index);
@@ -43,6 +64,12 @@ function App() {
     contact.user.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const toggleSelect = (index) => {
+    setSelectedContacts((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
   return (
     <Router>
       <Nav />
@@ -52,17 +79,18 @@ function App() {
           element={
             <>
               <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
               <AddContact
                 contacts={filteredContacts}
                 onDelete={deleteContact}
                 onEdit={editContact}
-                setContacts={setContacts}
+                onToggleSelect={toggleSelect}
+                selectedContacts={selectedContacts}
+                onDeleteSelected={deleteSelected}
+                onDeleteAll={deleteAll}
               />
             </>
           }
         />
-
         <Route
           path="/add"
           element={
