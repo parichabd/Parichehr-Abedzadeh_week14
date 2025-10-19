@@ -1,18 +1,85 @@
+// AddContact.jsx
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./AddContact.module.css";
-import { useState } from "react";
 
-function AddContact({ contacts, onDelete, onEdit }) {
+function AddContact({ contacts, onDelete, onEdit, setContacts }) {
   const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [selectedCards, setSelectedCards] = useState([]);
+
+  // حذف همه کارت‌ها
+  const deleteAll = () => {
+    if (window.confirm("Are you sure you want to delete all contacts?")) {
+      setContacts([]);
+      setSelectedCards([]);
+    }
+  };
+
+  // انتخاب یا لغو انتخاب کارت
+  const toggleSelectCard = (index) => {
+    if (selectedCards.includes(index)) {
+      setSelectedCards(selectedCards.filter((i) => i !== index));
+    } else {
+      setSelectedCards([...selectedCards, index]);
+    }
+  };
+
+  // حذف کارت‌های انتخاب‌شده
+  const deleteSelected = () => {
+    if (selectedCards.length === 0) return;
+    if (window.confirm("Are you sure you want to delete selected contacts?")) {
+      setContacts((prev) =>
+        prev.filter((_, idx) => !selectedCards.includes(idx))
+      );
+      setSelectedCards([]);
+    }
+  };
 
   return (
     <div>
       <div className={styles.parentInfo}>
         <h1 className={styles.AddInfo}>Contact Manager</h1>
-        <button className={styles.buttonInfo} onClick={() => navigate("/add")}>
-          +New
-        </button>
+
+        {/* دکمه‌ها فقط در صورت وجود کارت نمایش داده شوند */}
+        {contacts.length > 0 && (
+          <div>
+            <button
+              className={styles.buttonInfo}
+              onClick={() => navigate("/add")}
+            >
+              + New
+            </button>
+
+            <button
+              className={styles.buttonInfo}
+              onClick={deleteAll}
+              style={{ marginLeft: "10px", backgroundColor: "red" }}
+            >
+              Delete All
+            </button>
+
+            {selectedCards.length > 0 && (
+              <button
+                className={styles.buttonInfo}
+                onClick={deleteSelected}
+                style={{ marginLeft: "10px", backgroundColor: "orange" }}
+              >
+                Delete Selected ({selectedCards.length})
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* اگر هیچ کارتی وجود ندارد فقط دکمه New نمایش داده شود */}
+        {contacts.length === 0 && (
+          <button
+            className={styles.buttonInfo}
+            onClick={() => navigate("/add")}
+          >
+            + New
+          </button>
+        )}
       </div>
 
       <p className={styles.paragInfo}>
@@ -34,7 +101,24 @@ function AddContact({ contacts, onDelete, onEdit }) {
               className={styles.card}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
+              style={{ position: "relative" }}
             >
+              {/* چک‌باکس در سمت چپ */}
+              <input
+                type="checkbox"
+                checked={selectedCards.includes(index)}
+                onChange={() => toggleSelectCard(index)}
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  left: "10px",
+                  width: "18px",
+                  height: "18px",
+                  cursor: "pointer",
+                }}
+              />
+
+              {/* دکمه‌های اکشن هنگام هاور */}
               {hoveredIndex === index && (
                 <div className={styles.cardActions}>
                   <button
