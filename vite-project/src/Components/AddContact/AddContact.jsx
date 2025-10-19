@@ -72,7 +72,6 @@ function AddContact({
               onMouseLeave={() => setHoveredIndex(null)}
               style={{ position: "relative" }}
             >
-              {/* checkbox سمت چپ */}
               <input
                 type="checkbox"
                 checked={selectedContacts.includes(index)}
