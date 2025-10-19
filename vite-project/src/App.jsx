@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useNavigate,
 } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Nav from "./Components/Navbar/Nav";
 import AddContact from "./Components/AddContact/AddContact";
 import UserInfo from "./Components/UserInfo/UserInfo";
@@ -15,6 +15,7 @@ function App() {
     const stored = localStorage.getItem("contacts");
     return stored ? JSON.parse(stored) : [];
   });
+
   const [editData, setEditData] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,15 +61,15 @@ function App() {
     navigate("/add");
   };
 
-  const filteredContacts = contacts.filter((contact) =>
-    contact.user.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   const toggleSelect = (index) => {
     setSelectedContacts((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
+
+  const filteredContacts = contacts.filter((contact) =>
+    contact.user.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <Router>
@@ -83,8 +84,8 @@ function App() {
                 contacts={filteredContacts}
                 onDelete={deleteContact}
                 onEdit={editContact}
-                onToggleSelect={toggleSelect}
                 selectedContacts={selectedContacts}
+                onToggleSelect={toggleSelect}
                 onDeleteSelected={deleteSelected}
                 onDeleteAll={deleteAll}
               />

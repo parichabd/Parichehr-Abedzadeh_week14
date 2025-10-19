@@ -2,78 +2,53 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./AddContact.module.css";
 
-function AddContact({ contacts, onDelete, onEdit, setContacts }) {
+function AddContact({
+  contacts,
+  onDelete,
+  onEdit,
+  onToggleSelect,
+  selectedContacts,
+  onDeleteSelected,
+  onDeleteAll,
+}) {
   const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [selectedCards, setSelectedCards] = useState([]);
-
-  const deleteAll = () => {
-    if (window.confirm("Are you sure you want to delete all contacts?")) {
-      setContacts([]);
-      setSelectedCards([]);
-    }
-  };
-
-  const toggleSelectCard = (index) => {
-    if (selectedCards.includes(index)) {
-      setSelectedCards(selectedCards.filter((i) => i !== index));
-    } else {
-      setSelectedCards([...selectedCards, index]);
-    }
-  };
-
-  const deleteSelected = () => {
-    if (selectedCards.length === 0) return;
-    if (window.confirm("Are you sure you want to delete selected contacts?")) {
-      setContacts((prev) =>
-        prev.filter((_, idx) => !selectedCards.includes(idx))
-      );
-      setSelectedCards([]);
-    }
-  };
 
   return (
     <div>
       <div className={styles.parentInfo}>
         <h1 className={styles.AddInfo}>Contact Manager</h1>
 
-        {contacts.length > 0 && (
-          <div>
-            <button
-              className={styles.buttonInfo}
-              onClick={() => navigate("/add")}
-            >
-              + New
-            </button>
-
-            <button
-              className={styles.buttonInfo}
-              onClick={deleteAll}
-              style={{ marginLeft: "10px", backgroundColor: "red" }}
-            >
-              Delete All
-            </button>
-
-            {selectedCards.length > 0 && (
-              <button
-                className={styles.buttonInfo}
-                onClick={deleteSelected}
-                style={{ marginLeft: "10px", backgroundColor: "orange" }}
-              >
-                Delete Selected ({selectedCards.length})
-              </button>
-            )}
-          </div>
-        )}
-
-        {contacts.length === 0 && (
+        <div>
           <button
             className={styles.buttonInfo}
             onClick={() => navigate("/add")}
           >
             + New
           </button>
-        )}
+
+          {contacts.length > 0 && (
+            <>
+              <button
+                className={styles.buttonInfo}
+                onClick={onDeleteAll}
+                style={{ marginLeft: "10px", backgroundColor: "red" }}
+              >
+                Delete All
+              </button>
+
+              {selectedContacts.length > 0 && (
+                <button
+                  className={styles.buttonInfo}
+                  onClick={onDeleteSelected}
+                  style={{ marginLeft: "10px", backgroundColor: "orange" }}
+                >
+                  Delete Selected ({selectedContacts.length})
+                </button>
+              )}
+            </>
+          )}
+        </div>
       </div>
 
       <p className={styles.paragInfo}>
@@ -97,10 +72,11 @@ function AddContact({ contacts, onDelete, onEdit, setContacts }) {
               onMouseLeave={() => setHoveredIndex(null)}
               style={{ position: "relative" }}
             >
+              {/* checkbox سمت چپ */}
               <input
                 type="checkbox"
-                checked={selectedCards.includes(index)}
-                onChange={() => toggleSelectCard(index)}
+                checked={selectedContacts.includes(index)}
+                onChange={() => onToggleSelect(index)}
                 style={{
                   position: "absolute",
                   top: "10px",
