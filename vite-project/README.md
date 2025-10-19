@@ -1,16 +1,32 @@
-# React + Vite
+A React-based Contact Manager to add, edit, view, and delete contacts. Supports multiple selection, search, and persists data with localStorage.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Features:
 
-Currently, two official plugins are available:
+Add, edit, and view contacts
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Delete single, multiple, or all contacts
 
-## React Compiler
+Search contacts by name
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Responsive design for desktop and mobile
 
-## Expanding the ESLint configuration
+Data persists across page refresh
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Tech: React, CSS Modules, localStorage
+
+Usage:
+
+Click + New to add a contact
+
+Hover over cards to edit, delete, or view
+
+Select multiple contacts for deletion using checkboxes
+
+Use the search bar to filter contacts
+
+
+
+
+
+
+![image Alt](https://github.com/parichabd/Parichehr-Abedzadeh_week14/blob/main/vite-project/Screenshot%20(129).png?raw=true)
