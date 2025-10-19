@@ -1,4 +1,3 @@
-// AddContact.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./AddContact.module.css";
@@ -8,7 +7,6 @@ function AddContact({ contacts, onDelete, onEdit, setContacts }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [selectedCards, setSelectedCards] = useState([]);
 
-  // حذف همه کارت‌ها
   const deleteAll = () => {
     if (window.confirm("Are you sure you want to delete all contacts?")) {
       setContacts([]);
@@ -16,7 +14,6 @@ function AddContact({ contacts, onDelete, onEdit, setContacts }) {
     }
   };
 
-  // انتخاب یا لغو انتخاب کارت
   const toggleSelectCard = (index) => {
     if (selectedCards.includes(index)) {
       setSelectedCards(selectedCards.filter((i) => i !== index));
@@ -25,7 +22,6 @@ function AddContact({ contacts, onDelete, onEdit, setContacts }) {
     }
   };
 
-  // حذف کارت‌های انتخاب‌شده
   const deleteSelected = () => {
     if (selectedCards.length === 0) return;
     if (window.confirm("Are you sure you want to delete selected contacts?")) {
@@ -41,7 +37,6 @@ function AddContact({ contacts, onDelete, onEdit, setContacts }) {
       <div className={styles.parentInfo}>
         <h1 className={styles.AddInfo}>Contact Manager</h1>
 
-        {/* دکمه‌ها فقط در صورت وجود کارت نمایش داده شوند */}
         {contacts.length > 0 && (
           <div>
             <button
@@ -71,7 +66,6 @@ function AddContact({ contacts, onDelete, onEdit, setContacts }) {
           </div>
         )}
 
-        {/* اگر هیچ کارتی وجود ندارد فقط دکمه New نمایش داده شود */}
         {contacts.length === 0 && (
           <button
             className={styles.buttonInfo}
@@ -103,7 +97,6 @@ function AddContact({ contacts, onDelete, onEdit, setContacts }) {
               onMouseLeave={() => setHoveredIndex(null)}
               style={{ position: "relative" }}
             >
-              {/* چک‌باکس در سمت چپ */}
               <input
                 type="checkbox"
                 checked={selectedCards.includes(index)}
@@ -118,7 +111,6 @@ function AddContact({ contacts, onDelete, onEdit, setContacts }) {
                 }}
               />
 
-              {/* دکمه‌های اکشن هنگام هاور */}
               {hoveredIndex === index && (
                 <div className={styles.cardActions}>
                   <button

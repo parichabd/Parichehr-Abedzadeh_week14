@@ -16,7 +16,6 @@ function App() {
   const [editIndex, setEditIndex] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-
   const addOrUpdateContact = (contact, navigate) => {
     if (editData !== null && editIndex !== null) {
       setContacts((prev) =>
@@ -30,11 +29,9 @@ function App() {
     navigate("/");
   };
 
-
   const deleteContact = (index) => {
     setContacts((prev) => prev.filter((_, idx) => idx !== index));
   };
-
 
   const editContact = (index, navigate) => {
     setEditData(contacts[index]);
@@ -42,7 +39,6 @@ function App() {
     navigate("/add");
   };
 
-  // ✅ فیلتر بر اساس سرچ
   const filteredContacts = contacts.filter((contact) =>
     contact.user.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -61,7 +57,7 @@ function App() {
                 contacts={filteredContacts}
                 onDelete={deleteContact}
                 onEdit={editContact}
-                setContacts={setContacts} // ✅ این خط اضافه و بقیه حذف شوند
+                setContacts={setContacts}
               />
             </>
           }
