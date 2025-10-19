@@ -13,7 +13,6 @@ const images = [img1, img2, img3, img4, img5, img6];
 function UserInfo({ onAdd, editData }) {
   const navigate = useNavigate();
 
-  // اگر editData وجود داشته باشد از آن استفاده کن
   const [data, setData] = useState({
     user: "",
     email: "",

@@ -1,24 +1,29 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import { useState } from "react";
 import Nav from "./Components/Navbar/Nav";
 import AddContact from "./Components/AddContact/AddContact";
 import UserInfo from "./Components/UserInfo/UserInfo";
+import Search from "./Components/Search/Search";
 
 function App() {
   const [contacts, setContacts] = useState([]);
   const [editData, setEditData] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const addOrUpdateContact = (contact, navigate) => {
     if (editData !== null && editIndex !== null) {
-      // بروزرسانی مخاطب موجود
       setContacts((prev) =>
         prev.map((c, idx) => (idx === editIndex ? contact : c))
       );
       setEditData(null);
       setEditIndex(null);
     } else {
-      // اضافه کردن مخاطب جدید
       setContacts((prev) => [...prev, contact]);
     }
     navigate("/");
@@ -34,6 +39,10 @@ function App() {
     navigate("/add");
   };
 
+  const filteredContacts = contacts.filter((contact) =>
+    contact.user.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Router>
       <Nav />
@@ -41,23 +50,30 @@ function App() {
         <Route
           path="/"
           element={
-            <AddContact
-              contacts={contacts}
-              onDelete={deleteContact}
-              onEdit={editContact}
-            />
+            <>
+              <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+              <AddContact
+                contacts={filteredContacts}
+                onDelete={deleteContact}
+                onEdit={editContact}
+              />
+            </>
           }
         />
         <Route
           path="/add"
-          element={<UserInfoWrapper addOrUpdateContact={addOrUpdateContact} editData={editData} />}
+          element={
+            <UserInfoWrapper
+              addOrUpdateContact={addOrUpdateContact}
+              editData={editData}
+            />
+          }
         />
       </Routes>
     </Router>
   );
 }
 
-// wrapper برای استفاده از useNavigate
 function UserInfoWrapper({ addOrUpdateContact, editData }) {
   const navigate = useNavigate();
   return (
